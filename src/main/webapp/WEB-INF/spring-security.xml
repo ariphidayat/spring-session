@@ -4,7 +4,22 @@
        xsi:schemaLocation="http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd
        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-    <sec:http/>
+    <sec:http auto-config="true">
+        <sec:intercept-url pattern="/login" access="permitAll"/>
+        <sec:intercept-url pattern="/**" access="hasRole('ROLE_USER')" />
+
+        <sec:form-login
+                login-page="/login"
+                default-target-url="/hello"
+                authentication-failure-url="/login?error"
+                username-parameter="username"
+                password-parameter="password"
+        />
+
+        <sec:logout logout-success-url="/login?logout"/>
+
+        <sec:csrf/>
+    </sec:http>
 
     <sec:user-service>
         <sec:user name="arip" password="hidayat" authorities="ROLE_USER" />
