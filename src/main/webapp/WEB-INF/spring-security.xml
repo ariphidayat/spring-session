@@ -6,12 +6,12 @@
 
     <sec:http auto-config="true">
         <sec:intercept-url pattern="/login" access="permitAll"/>
-        <sec:intercept-url pattern="/**" access="hasRole('ROLE_USER')" />
+        <sec:intercept-url pattern="/**" access="isAuthenticated()" />
 
         <sec:form-login
                 login-page="/login"
-                default-target-url="/hello"
                 authentication-failure-url="/login?error"
+                authentication-success-handler-ref="authSuccessHandler"
                 username-parameter="username"
                 password-parameter="password"
         />
@@ -21,8 +21,11 @@
         <sec:csrf/>
     </sec:http>
 
+    <bean id="authSuccessHandler" class="org.arip.AuthSuccessHandler"/>
+
     <sec:user-service>
         <sec:user name="arip" password="hidayat" authorities="ROLE_USER" />
+        <sec:user name="alisiana" password="ulfah" authorities="ROLE_ADMIN" />
     </sec:user-service>
 
 </beans>
